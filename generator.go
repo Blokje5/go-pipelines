@@ -19,7 +19,7 @@ func (g GeneratorFunc) Generate(ctx context.Context) <-chan interface{} {
 
 // FromSlice creates a Generator from a slice.
 // Each value of the slice will be send over the channel.
-func FromSlice(s []interface{}) Generator {
+func FromSlice(s ...interface{}) Generator {
 	f := GeneratorFunc(func(ctx context.Context) <-chan interface{} {
 		c := make(chan interface{})
 		go func() {

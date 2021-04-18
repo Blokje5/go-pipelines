@@ -18,7 +18,7 @@ var _ = Describe("FromSlice", func() {
 		go func() {
 			defer close(done)
 			ctx := context.Background()
-			g := FromSlice(s)
+			g := FromSlice(s...)
 			c := g.Generate(ctx)
 			
 			for v := range c {
