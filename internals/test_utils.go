@@ -16,3 +16,14 @@ func TestGoroutineClosure(f func(), intervals ...interface{}) {
 
 	Eventually(done, intervals...).Should(BeClosed())
 }
+
+// BlockUntilClose blocks the goroutine until the channel is closed.
+// This is used in testing preemptability.
+func BlockUntilClose(c <-chan interface{}) {
+	for {
+		select {
+		case _, ok := <- c:
+			if !ok { return }
+		}
+	}
+}

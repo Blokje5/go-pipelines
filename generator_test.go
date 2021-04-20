@@ -52,13 +52,7 @@ var _ = Describe("Repeat", func() {
 			defer cancel()
 			g := Repeat(1, math.MaxInt32)
 			c := g.Generate(ctx)
-			// block until channel is closed, which should happen when timeout occurs
-			for {
-				select {
-				case _, ok := <- c:
-					if !ok { return }
-				}
-			}
+			internals.BlockUntilClose(c)
 		}, timeout)
 	})
 })
