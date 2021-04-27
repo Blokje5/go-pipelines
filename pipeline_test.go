@@ -22,6 +22,17 @@ var _ = Describe("Pipeline", func() {
 		Expect(res).To(Equal([]interface{}{1, 4, 9, 16}))
 	})
 
+	It("Should execute a simple summing pipeline and return the result correctly", func() {
+		ctx := context.Background()
+		res := From(SliceGenerator(1, 2, 3, 4)).
+			Map(MapFunc(func(x interface{}) interface{} {return x.(int) * x.(int)})).
+			Reduce(Accumulate(0, func(a, b interface{}) interface{} { return a.(int) + b.(int)})).
+			Run(ctx)
+		
+		Expect(res).To(Equal(30))
+	})
+
+
 	It("Should be preemtable", func() {
 		internals.TestGoroutineClosure(func() {
 			ctx, cancel := context.WithTimeout(context.Background(), 1 * time.Microsecond)
