@@ -15,8 +15,8 @@ func (f TransformFunc) Transform(ctx context.Context, channel <-chan interface{}
 	return f(ctx, channel)
 }
 
-// Map: See FuncTransformer
-func Map(f func(msg interface{}) interface{}) Transformer {
+// MapFunc: See FuncTransformer
+func MapFunc(f func(msg interface{}) interface{}) Transformer {
 	return FuncTransformer(f)
 }
 

@@ -18,7 +18,7 @@ var _ = Describe("FromSlice", func() {
 	
 		internals.TestGoroutineClosure(func() {
 			ctx := context.Background()
-			g := FromSlice(s...)
+			g := SliceGenerator(s...)
 			c := g.Generate(ctx)
 			
 			for v := range c {
