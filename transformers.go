@@ -15,14 +15,16 @@ func (f TransformFunc) Transform(ctx context.Context, channel <-chan interface{}
 	return f(ctx, channel)
 }
 
+type Map func(ctx context.Context, msg interface{}) interface{}
+
 // MapFunc: See FuncTransformer
-func MapFunc(f func(msg interface{}) interface{}) Transformer {
+func MapFunc(f Map) Transformer {
 	return FuncTransformer(f)
 }
 
 // FuncTransformer (aka Map) takes a function and returns a Transformer
 // which applies that function on each incoming msg on the read-only channel.
-func FuncTransformer(f func(msg interface{}) interface{}) Transformer {
+func FuncTransformer(f Map) Transformer {
 	f1 := TransformFunc(func(ctx context.Context, channel <-chan interface{}) <-chan interface{} {
 		c := make(chan interface{})
 		go func() {
@@ -36,7 +38,7 @@ func FuncTransformer(f func(msg interface{}) interface{}) Transformer {
 						return
 					}
 					select {
-					case c<- f(msg):
+					case c<- f(ctx, msg):
 					case <- ctx.Done():
 						return
 					}

@@ -15,7 +15,7 @@ var _ = Describe("Pipeline", func() {
 	It("Should execute a simple pipeline and return the result correctly", func() {
 		ctx := context.Background()
 		res := From(SliceGenerator(1, 2, 3, 4)).
-			Map(MapFunc(func(x interface{}) interface{} {return x.(int) * x.(int)})).
+			Map(MapFunc(func(_ context.Context, x interface{}) interface{} {return x.(int) * x.(int)})).
 			Reduce(ToSlice()).
 			Run(ctx)
 		
@@ -25,7 +25,7 @@ var _ = Describe("Pipeline", func() {
 	It("Should execute a simple summing pipeline and return the result correctly", func() {
 		ctx := context.Background()
 		res := From(SliceGenerator(1, 2, 3, 4)).
-			Map(MapFunc(func(x interface{}) interface{} {return x.(int) * x.(int)})).
+			Map(MapFunc(func(_ context.Context, x interface{}) interface{} {return x.(int) * x.(int)})).
 			Reduce(Accumulate(0, func(a, b interface{}) interface{} { return a.(int) + b.(int)})).
 			Run(ctx)
 		
@@ -38,7 +38,7 @@ var _ = Describe("Pipeline", func() {
 			ctx, cancel := context.WithTimeout(context.Background(), 1 * time.Microsecond)
 			defer cancel()
 			_ = From(Repeat(1, math.MaxInt32)).
-				Map(MapFunc(func(x interface{}) interface{} {return x.(int) * x.(int)})).
+				Map(MapFunc(func(_ context.Context, x interface{}) interface{} {return x.(int) * x.(int)})).
 				Reduce(ToSlice()).
 				Run(ctx)
 		}, timeout)

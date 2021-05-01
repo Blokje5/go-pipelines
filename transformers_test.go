@@ -14,7 +14,7 @@ var _ = Describe("FuncTransformer", func() {
 	var transformer Transformer
 
 	BeforeEach(func() {
-		f := func(msg interface{}) interface{} {
+		f := func(_ context.Context, msg interface{}) interface{} {
 			i := msg.(int)
 			return i*i
 		}
