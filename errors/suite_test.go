@@ -1,4 +1,4 @@
-package main
+package errors
 
 import (
 	"testing"
@@ -11,7 +11,7 @@ import (
 	
 const timeout = 1 * time.Second
 
-func TestPipelines(t *testing.T) {
+func TestErrors(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Go Pipelines Suite")
+	RunSpecs(t, "Errors Suite")
 }
